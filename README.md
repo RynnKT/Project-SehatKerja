@@ -47,52 +47,66 @@ Sebelum menjalankan proyek ini di lingkungan lokal Anda, pastikan perangkat Anda
 
 Ikuti instruksi berikut untuk melakukan instalasi proyek di komputer lokal Anda:
 
-1.  **Clone Repository**
-    ```bash
-    git clone [https://github.com/RynnKT/Project-SehatKerja.git](https://github.com/RynnKT/Project-SehatKerja.git)
-    cd Project-SehatKerja
-    ```
+1. **Clone Repository**
 
-2.  **Instalasi Dependencies (Pilih sesuai teknologi Anda)**
-    * **Jika menggunakan Node.js (NPM):**
-        ```bash
-        npm install
-        ```
-    * **Jika menggunakan PHP (Laravel/Composer):**
-        ```bash
-        composer install
-        ```
+   ```bash
+   git clone https://github.com/RynnKT/Project-SehatKerja.git
+   cd Project-SehatKerja
+   ```
 
-3.  **Konfigurasi Environment**
-    Salin file `.env.example` menjadi `.env`, kemudian buka file tersebut dan sesuaikan konfigurasi database Anda.
-    ```bash
-    cp .env.example .env
-    ```
-    *Contoh konfigurasi database pada `.env`:*
-    ```env
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=db_sehatkerja
-    DB_USERNAME=root
-    DB_PASSWORD=
-    ```
+2. **Instalasi Dependencies (Pilih sesuai teknologi Anda)**
 
-4.  **Migrasi & Sinkronisasi Database (Jika ada)**
-    ```bash
-    # Contoh untuk proyek berbasis Laravel
-    php artisan migrate --seed
-    ```
+   **Jika menggunakan Node.js (NPM):**
 
-5.  **Menjalankan Server Lokal**
-    * **Jika menggunakan Node.js:**
-        ```bash
-        npm start
-        ```
-    * **Jika menggunakan Laravel:**
-        ```bash
-        php artisan serve
-        ```
+   ```bash
+   npm install
+   ```
+
+   **Jika menggunakan PHP (Laravel/Composer):**
+
+   ```bash
+   composer install
+   ```
+
+3. **Konfigurasi Environment**
+
+   Salin file `.env.example` menjadi `.env`, kemudian buka file tersebut dan sesuaikan konfigurasi database Anda.
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Contoh konfigurasi database pada `.env`:
+
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=db_sehatkerja
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. **Migrasi & Sinkronisasi Database (Jika ada)**
+
+   ```bash
+   # Contoh untuk proyek berbasis Laravel
+   php artisan migrate --seed
+   ```
+
+5. **Menjalankan Server Lokal**
+
+   **Jika menggunakan Node.js:**
+
+   ```bash
+   npm start
+   ```
+
+   **Jika menggunakan Laravel:**
+
+   ```bash
+   php artisan serve
+   ```
 
 Setelah server berhasil berjalan, buka browser Anda dan akses halaman aplikasi melalui URL: `http://localhost:3000` atau `http://127.0.0.1:8000`.
 
@@ -100,31 +114,34 @@ Setelah server berhasil berjalan, buka browser Anda dan akses halaman aplikasi m
 
 ## 📂 Struktur Direktori Utama
 
-```text
-Project-SehatKerja/
-├── public/              # Aset statis (Gambar, CSS, favicon, JS global)
-├── src/                 # Source code utama aplikasi (atau direktori 'app' pada Laravel)
-│   ├── controllers/     # Logika bisnis / handler aplikasi
-│   ├── models/          # Struktur data / skema database
-│   └── routes/          # Definisi endpoint routing URL
-├── config/              # File konfigurasi sistem dan database
-├── database/            # File migrasi dan data seeder
-├── .env.example         # Template konfigurasi environment variables
-└── README.md            # Dokumentasi proyek ini
+ ```text
+ Project-SehatKerja/
+ ├── public/              # Aset statis (Gambar, CSS, favicon, JS global)
+ ├── src/                 # Source code utama aplikasi (atau direktori 'app' pada Laravel)
+ │   ├── controllers/     # Logika bisnis / handler aplikasi
+ │   ├── models/          # Struktur data / skema database
+ │   └── routes/          # Definisi endpoint routing URL
+ ├── config/              # File konfigurasi sistem dan database
+ ├── database/            # File migrasi dan data seeder
+ ├── .env.example         # Template konfigurasi environment variables
+ └── README.md            # Dokumentasi proyek ini
+ ```
 
 ---
 
-## 🤝 Kontribusi
-Saya sangat menerima kontribusi dari komunitas untuk pengembangan fitur maupun perbaikan bug. Jika Anda ingin berkontribusi pada Project SehatKerja, silakan ikuti alur berikut:
+ ## 🤝 Kontribusi
 
-Lakukan Fork pada repository ini.
-Buat branch fitur baru Anda (git checkout -b fitur/FiturUnggulan).
-Simpan perubahan Anda (git commit -m 'Menambahkan Fitur Unggulan yang bermanfaat').
-Lakukan push ke branch tersebut (git push origin fitur/FiturUnggulan).
-Buka halaman repository utama dan buat sebuah Pull Request.
+ Saya sangat menerima kontribusi dari komunitas untuk pengembangan fitur maupun perbaikan bug. Jika Anda ingin berkontribusi pada Project SehatKerja, silakan ikuti alur berikut:
+
+ 1. Lakukan fork pada repository ini.
+ 2. Buat branch fitur baru Anda: `git checkout -b fitur/FiturUnggulan`.
+ 3. Simpan perubahan Anda: `git commit -m 'Menambahkan Fitur Unggulan yang bermanfaat'`.
+ 4. Lakukan push ke branch tersebut: `git push origin fitur/FiturUnggulan`.
+ 5. Buka halaman repository utama dan buat sebuah Pull Request.
 
 ---
 
-## 📄 Lisensi
-Proyek ini dilisensikan di bawah MIT License - Silakan lihat file LICENSE untuk informasi hak cipta lebih lanjut.
-Proyek ini dikembangkan dan dikelola oleh RynnKT. Jika Anda merasa platform ini bermanfaat, jangan lupa untuk memberikan kontribusi berupa bintang ⭐ pada repository ini!
+ ## 📄 Lisensi
+
+ Proyek ini dilisensikan di bawah MIT License. Silakan lihat file [LICENSE](LICENSE) untuk informasi hak cipta lebih lanjut.
+ Proyek ini dikembangkan dan dikelola oleh RynnKT. Jika Anda merasa platform ini bermanfaat, jangan lupa untuk memberikan kontribusi berupa bintang ⭐ pada repository ini!
