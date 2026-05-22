@@ -1,0 +1,6 @@
+{
+  "name": "SehatKerja",
+  "description": "Deteksi risiko burnout karyawan dari metadata komunikasi harian secara preventif yang terintegrasi dengan asisten AI Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

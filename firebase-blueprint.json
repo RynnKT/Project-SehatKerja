@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile with role and settings",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["employee", "hr"] },
+        "timezone": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "teamId": { "type": "string" }
+      },
+      "required": ["email", "name", "role", "timezone", "createdAt"]
+    },
+    "MessageMetadata": {
+      "title": "Daily Message Metadata",
+      "description": "Metadata of communication activities",
+      "type": "object",
+      "properties": {
+        "timestamp": { "type": "string", "format": "date-time" },
+        "hourOfDay": { "type": "integer" },
+        "isWeekend": { "type": "boolean" },
+        "messageLength": { "type": "integer" },
+        "responseTimeMinutes": { "type": "integer" },
+        "source": { "type": "string", "enum": ["manual", "csv"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["timestamp", "hourOfDay", "isWeekend", "messageLength", "responseTimeMinutes", "source", "createdAt"]
+    },
+    "BurnoutScore": {
+      "title": "Burnout Score Result",
+      "description": "Calculated burnout score and risk level with signals",
+      "type": "object",
+      "properties": {
+        "score": { "type": "number" },
+        "category": { "type": "string", "enum": ["sehat", "waspada", "kritis"] },
+        "signalsJson": { "type": "string" },
+        "topFactors": { "type": "array", "items": { "type": "string" } },
+        "calculatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["score", "category", "signalsJson", "topFactors", "calculatedAt"]
+    },
+    "Recommendation": {
+      "title": "Wellness Recommendation",
+      "description": "AI generated recommendations for micro-breaks based on burnout score",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "durationMinutes": { "type": "integer" },
+        "bestTime": { "type": "string" },
+        "reason": { "type": "string" },
+        "completedAt": { "type": "string" },
+        "scoreId": { "type": "string" },
+        "type": { "type": "string", "enum": ["fisik", "mental", "sosial"] }
+      },
+      "required": ["title", "durationMinutes", "bestTime", "reason", "scoreId"]
+    },
+    "HRReport": {
+      "title": "HR Weekly Burnout Report",
+      "description": "Aggregated team burnout health report for HR",
+      "type": "object",
+      "properties": {
+        "calculatedAt": { "type": "string", "format": "date-time" },
+        "averageScore": { "type": "number" },
+        "totalUsers": { "type": "number" },
+        "categoryDistribution": {
+          "type": "object",
+          "properties": {
+            "sehat": { "type": "integer" },
+            "waspada": { "type": "integer" },
+            "kritis": { "type": "integer" }
+          },
+          "required": ["sehat", "waspada", "kritis"]
+        }
+      },
+      "required": ["calculatedAt", "averageScore", "totalUsers", "categoryDistribution"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "Storage for user profiles"
+    },
+    "users/{userId}/metadata/{metaId}": {
+      "schema": "MessageMetadata",
+      "description": "Subcollection for daily message metadata entries"
+    },
+    "users/{userId}/scores/{scoreId}": {
+      "schema": "BurnoutScore",
+      "description": "Subcollection for calculated scores history"
+    },
+    "users/{userId}/recommendations/{recId}": {
+      "schema": "Recommendation",
+      "description": "Subcollection for personal burnout recommendations"
+    },
+    "hrReports/{reportId}": {
+      "schema": "HRReport",
+      "description": "Collection for aggregated team reports available to HR users"
+    }
+  }
+}

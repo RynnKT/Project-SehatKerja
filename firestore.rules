@@ -1,0 +1,118 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global SAFETY NET - default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isHrUser() {
+      return isSignedIn() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "hr";
+    }
+
+    // Collection validation rules
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'name', 'role', 'timezone', 'createdAt']) &&
+             data.keys().size() <= 6 &&
+             data.email is string && data.email.size() <= 100 &&
+             data.name is string && data.name.size() <= 100 &&
+             data.role in ['employee', 'hr'] &&
+             data.timezone is string && data.timezone.size() <= 50;
+    }
+
+    function isValidMetadata(data) {
+      return data.keys().hasAll(['timestamp', 'hourOfDay', 'isWeekend', 'messageLength', 'responseTimeMinutes', 'source', 'createdAt']) &&
+             data.keys().size() == 7 &&
+             data.timestamp is string &&
+             data.hourOfDay is int && data.hourOfDay >= 0 && data.hourOfDay <= 23 &&
+             data.isWeekend is bool &&
+             data.messageLength is int && data.messageLength >= 0 &&
+             data.responseTimeMinutes is int && data.responseTimeMinutes >= 0 &&
+             data.source in ['manual', 'csv'];
+    }
+
+    function isValidScore(data) {
+      return data.keys().hasAll(['score', 'category', 'signalsJson', 'topFactors', 'calculatedAt']) &&
+             data.score is number && data.score >= 0 && data.score <= 100 &&
+             data.category in ['sehat', 'waspada', 'kritis'] &&
+             data.signalsJson is string &&
+             data.topFactors is list;
+    }
+
+    function isValidRecommendation(data) {
+      return data.keys().hasAll(['title', 'durationMinutes', 'bestTime', 'reason', 'completedAt', 'scoreId', 'type']) &&
+             data.title is string && data.title.size() <= 200 &&
+             data.durationMinutes is int &&
+             data.bestTime is string &&
+             data.reason is string &&
+             data.scoreId is string &&
+             data.type in ['fisik', 'mental', 'sosial'];
+    }
+
+    function isValidHRReport(data) {
+      return data.keys().hasAll(['calculatedAt', 'averageScore', 'totalUsers', 'categoryDistribution']) &&
+             data.averageScore is number &&
+             data.totalUsers is int &&
+             data.categoryDistribution is map;
+    }
+
+    // MATCH user documents
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidId(userId) && isValidUser(request.resource.data) && (
+        // Forbid changing role after creation
+        request.resource.data.role == resource.data.role
+      );
+      allow delete: if false;
+
+      // Subcollection: metadata
+      match /metadata/{metaId} {
+        allow list, get: if isOwner(userId) && isValidId(userId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidMetadata(request.resource.data);
+        allow delete, update: if false; // Metadata is immutable for history tracing
+      }
+
+      // Subcollection: scores
+      match /scores/{scoreId} {
+        allow list, get: if isOwner(userId) && isValidId(userId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidScore(request.resource.data);
+        allow delete, update: if false; // Scores are immutable records
+      }
+
+      // Subcollection: recommendations
+      match /recommendations/{recId} {
+        allow list, get: if isOwner(userId) && isValidId(userId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidRecommendation(request.resource.data);
+        allow update: if isOwner(userId) && isValidId(userId) && (
+          // Allow marking completedAt
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['completedAt'])
+        );
+        allow delete: if false;
+      }
+    }
+
+    // MATCH HR reports
+    match /hrReports/{reportId} {
+      allow list, get: if isSignedIn() && isHrUser();
+      allow create: if isSignedIn(); // Allow score processes/schedulers to post reports
+      allow update, delete: if false;
+    }
+  }
+}
