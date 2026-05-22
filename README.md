@@ -112,6 +112,8 @@ Project-SehatKerja/
 ├── .env.example         # Template konfigurasi environment variables
 └── README.md            # Dokumentasi proyek ini
 
+---
+
 ## 🤝 Kontribusi
 Saya sangat menerima kontribusi dari komunitas untuk pengembangan fitur maupun perbaikan bug. Jika Anda ingin berkontribusi pada Project SehatKerja, silakan ikuti alur berikut:
 
@@ -120,6 +122,8 @@ Buat branch fitur baru Anda (git checkout -b fitur/FiturUnggulan).
 Simpan perubahan Anda (git commit -m 'Menambahkan Fitur Unggulan yang bermanfaat').
 Lakukan push ke branch tersebut (git push origin fitur/FiturUnggulan).
 Buka halaman repository utama dan buat sebuah Pull Request.
+
+---
 
 ## 📄 Lisensi
 Proyek ini dilisensikan di bawah MIT License - Silakan lihat file LICENSE untuk informasi hak cipta lebih lanjut.
