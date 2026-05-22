@@ -1,9 +1,3 @@
-Your Markdown file is ready
-[file-tag: code-generated-file-0-1779491245813927364]
-
-Saya telah membuatkan file `README.md` yang siap pakai. Anda bisa langsung mengunduh file di atas atau menyalin (*copy*) isi teks lengkap di dalam kotak kode (*code block*) di bawah ini ke dalam repository GitHub Anda:
-
-```markdown
 # 🩺 Project SehatKerja
 
 [![Kategori](https://img.shields.io/badge/Category-Occupational__Health-green)](https://github.com/RynnKT/Project-SehatKerja)
